@@ -42,7 +42,7 @@ CIMGUI_API void Breakpoint_Destroy(Breakpoint* ins);
 CIMGUI_API Coordinates* Coordinates_Coordinates(void);
 CIMGUI_API void Coordinates_Destroy(Coordinates* ins);
 
-CIMGUI_API Identifier* Identifier_Identifier(void);
+CIMGUI_API Identifier* Identifier_Identifier(char* aDeclaration);
 CIMGUI_API void Identifier_Destroy(Identifier* ins);
 
 CIMGUI_API Glyph* Glyph_Glyph(char aChar, PaletteIndex aColorIndex);
@@ -62,9 +62,8 @@ CIMGUI_API void igteSetText(TextEditor* ins, const char* aText);
 CIMGUI_API void igteSetTextLines(TextEditor* ins, const char** aLines, int aCount);
 CIMGUI_API char* igteGetText(TextEditor* ins);
 CIMGUI_API char** igteGetTextLines(TextEditor* ins);
-CIMGUI_API size_t igteGetTextLinesSize(TextEditor* ins);
-CIMGUI_API const char* igteGetSelectedText(TextEditor* ins);
-CIMGUI_API const char* igteGetCurrentLineText(TextEditor* ins);
+CIMGUI_API char* igteGetSelectedText(TextEditor* ins);
+CIMGUI_API char* igteGetCurrentLineText(TextEditor* ins);
 
 CIMGUI_API int igteGetTotalLines(TextEditor* ins);
 CIMGUI_API bool igteIsOverwrite(TextEditor* ins);
@@ -74,7 +73,7 @@ CIMGUI_API bool igteIsReadOnly(TextEditor* ins);
 CIMGUI_API bool igteIsTextChanged(TextEditor* ins);
 CIMGUI_API bool igteIsCursorPositionChanged(TextEditor* ins);
 
-CIMGUI_API Coordinates igteGetCursorPosition(TextEditor* ins);
+CIMGUI_API void igteGetCursorPosition(TextEditor* ins, Coordinates* aResult);
 CIMGUI_API void igteSetCursorPosition(TextEditor* ins, const Coordinates aPosition);
 
 CIMGUI_API void igteInsertText(TextEditor* ins, const char* aValue);

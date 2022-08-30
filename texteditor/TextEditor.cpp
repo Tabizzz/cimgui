@@ -801,7 +801,7 @@ void TextEditor::Render()
 				if (it != mLanguageDefinition.mIdentifiers.end())
 				{
 					ImGui::BeginTooltip();
-					ImGui::TextUnformatted(it->second.mDeclaration.c_str());
+					ImGui::TextUnformatted(it->second.mDeclaration);
 					ImGui::EndTooltip();
 				}
 				else
@@ -810,7 +810,7 @@ void TextEditor::Render()
 					if (pi != mLanguageDefinition.mPreprocIdentifiers.end())
 					{
 						ImGui::BeginTooltip();
-						ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
+						ImGui::TextUnformatted(pi->second.mDeclaration);
 						ImGui::EndTooltip();
 					}
 				}
@@ -2333,8 +2333,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::CPlusPlus(
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 
@@ -2422,8 +2421,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::HLSL()
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 
@@ -2471,8 +2469,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::GLSL()
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 
@@ -2520,8 +2517,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::C()
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 
@@ -2602,8 +2598,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::SQL()
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 
@@ -2652,8 +2647,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::AngelScrip
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 
@@ -2707,8 +2701,7 @@ const TextEditor::LanguageDefinition& TextEditor::LanguageDefinition::Lua()
 		};
 		for (auto& k : identifiers)
 		{
-			Identifier id;
-			id.mDeclaration = "Built-in function";
+			Identifier id("Built-in function");
 			langDef.mIdentifiers.insert(std::make_pair(std::string(k), id));
 		}
 

@@ -1,7 +1,7 @@
 
 #include "ctexteditor.h"
 
-const Palette igtPalettePointer(TextEditor::Palette palette)
+const Palette igtePalettePointer(TextEditor::Palette palette)
 {
 	auto size = palette.size();
 	Palette ret = new ImU32[size];
@@ -10,6 +10,14 @@ const Palette igtPalettePointer(TextEditor::Palette palette)
 		ret[i] = palette[i];
 	}
 	return ret;
+}
+
+char* igteStrToCharPointer(std::string str)
+{
+	const size_t size = str.size();
+	char* cstr = new char[size + 1] {};
+	str.copy(cstr, size);
+	return cstr;
 }
 
 CIMGUI_API Breakpoint* Breakpoint_Breakpoint(void)
@@ -38,9 +46,9 @@ CIMGUI_API void Coordinates_Destroy(Coordinates* ins)
 	}
 }
 
-CIMGUI_API Identifier* Identifier_Identifier(void)
+CIMGUI_API Identifier* Identifier_Identifier(char* aDeclaration)
 {
-	return IM_NEW(Identifier);
+	return IM_NEW(Identifier)(aDeclaration);
 }
 CIMGUI_API void Identifier_Destroy(Identifier* ins)
 {
@@ -79,7 +87,7 @@ CIMGUI_API void TextEditor_Destroy(TextEditor* ins)
 
 CIMGUI_API const Palette igteGetPalette(TextEditor* ins)
 {
-	return igtPalettePointer(ins->GetPalette());
+	return igtePalettePointer(ins->GetPalette());
 }
 CIMGUI_API void igteSetPalette(TextEditor* ins, const Palette aValue)
 {
@@ -116,6 +124,7 @@ CIMGUI_API void igteSetTextLines(TextEditor* ins, const char** aLines, int aCoun
 	if (ins)
 	{
 		std::vector<std::string> vector;
+		vector.reserve(aCount);
 		for (size_t i = 0; i < aCount; i++)
 		{
 			vector.push_back(aLines[i]);
@@ -125,48 +134,28 @@ CIMGUI_API void igteSetTextLines(TextEditor* ins, const char** aLines, int aCoun
 }
 CIMGUI_API char* igteGetText(TextEditor* ins)
 {
-	std::string str = ins->GetText();
-	auto size = str.size();
-	char* cstr = new char[str.length() + 1];
-	strcpy_s(cstr, size, str.c_str());
-	return cstr;
+	return igteStrToCharPointer(ins->GetText());
 }
 CIMGUI_API char** igteGetTextLines(TextEditor* ins)
 {
-	auto count = igteGetTextLinesSize(ins);
+	auto count = ins->GetTotalLines();
 	auto ret = new char* [count];
 	auto data = ins->GetTextLines();
-
+	ins->GetTotalLines();
 	for (size_t i = 0; i < count; i++)
 	{
-		std::string str = data[i];
-		auto size = str.size();
-		char* cstr = new char[str.length() + 1];
-		strcpy_s(cstr, size, str.c_str());
-		ret[i] = cstr;
+		ret[i] = igteStrToCharPointer(data[i]);;
 	}
 
 	return ret;
 }
-CIMGUI_API size_t igteGetTextLinesSize(TextEditor* ins)
+CIMGUI_API char* igteGetSelectedText(TextEditor* ins)
 {
-	return ins->GetTextLines().size();
+	return igteStrToCharPointer(ins->GetSelectedText());
 }
-CIMGUI_API const char* igteGetSelectedText(TextEditor* ins)
+CIMGUI_API char* igteGetCurrentLineText(TextEditor* ins)
 {
-	std::string str = ins->GetSelectedText();
-	auto size = str.size();
-	char* cstr = new char[str.length() + 1];
-	strcpy_s(cstr, size, str.c_str());
-	return cstr;
-}
-CIMGUI_API const char* igteGetCurrentLineText(TextEditor* ins)
-{
-	std::string str = ins->GetCurrentLineText();
-	auto size = str.size();
-	char* cstr = new char[str.length() + 1];
-	strcpy_s(cstr, size, str.c_str());
-	return cstr;
+	return igteStrToCharPointer(ins->GetCurrentLineText());
 }
 
 CIMGUI_API int igteGetTotalLines(TextEditor* ins)
@@ -198,9 +187,12 @@ CIMGUI_API bool igteIsCursorPositionChanged(TextEditor* ins)
 	return ins->IsCursorPositionChanged();
 }
 
-CIMGUI_API Coordinates igteGetCursorPosition(TextEditor* ins)
+CIMGUI_API void igteGetCursorPosition(TextEditor* ins, Coordinates* aResult)
 {
-	return ins->GetCursorPosition();
+	if (ins)
+	{
+		*aResult = ins->GetCursorPosition();
+	}
 }
 CIMGUI_API void igteSetCursorPosition(TextEditor* ins, const Coordinates aPosition)
 {
@@ -369,15 +361,15 @@ CIMGUI_API void igteRedo(TextEditor* ins, int aSteps)
 
 CIMGUI_API const Palette igteGetDarkPalette(void)
 {
-	return igtPalettePointer(TextEditor::GetDarkPalette());
+	return igtePalettePointer(TextEditor::GetDarkPalette());
 }
 CIMGUI_API const Palette igteGetLightPalette(void)
 {
-	return igtPalettePointer(TextEditor::GetLightPalette());
+	return igtePalettePointer(TextEditor::GetLightPalette());
 }
 CIMGUI_API const Palette igteGetRetroBluePalette(void)
 {
-	return igtPalettePointer(TextEditor::GetRetroBluePalette());
+	return igtePalettePointer(TextEditor::GetRetroBluePalette());
 }
 
 CIMGUI_API void igteDeleteArray(void* ptr)

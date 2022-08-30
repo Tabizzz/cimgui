@@ -50,7 +50,6 @@ public:
 	{
 		int mLine;
 		bool mEnabled;
-		std::string mCondition;
 
 		Breakpoint()
 			: mLine(-1)
@@ -115,7 +114,9 @@ public:
 	struct Identifier
 	{
 		Coordinates mLocation;
-		std::string mDeclaration;
+		char* mDeclaration;
+		Identifier(char* aDeclaration) : mDeclaration(aDeclaration)
+		{}
 	};
 
 	typedef std::string String;
